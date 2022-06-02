@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Cliente implements Serializable {
@@ -22,6 +24,9 @@ public class Cliente implements Serializable {
 	private String numero;
 	private String bairro;
 	private String cep;
+	
+	@ManyToOne
+	@JoinColumn(name = "cidade_id")
 	private Cidade cidade;
 	private String telefone;
 	private String email;

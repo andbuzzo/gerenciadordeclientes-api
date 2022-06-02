@@ -1,8 +1,21 @@
 package com.andre.gerenciadordeclientes.domain;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Cliente {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Cliente implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 	private String cpfOuCnpj;
 	private String nome;
 	private String endereco;
@@ -19,11 +32,21 @@ public class Cliente {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Cliente(String cpfOuCnpj, String nome, boolean isAtivo) {
+	public Cliente(Integer id, String cpfOuCnpj, String nome, boolean isAtivo) {
 		super();
+		this.id = id;
 		this.cpfOuCnpj = cpfOuCnpj;
 		this.nome = nome;
 		this.isAtivo = isAtivo;
+	}
+
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getCpfOuCnpj() {
@@ -115,7 +138,7 @@ public class Cliente {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cpfOuCnpj);
+		return Objects.hash(cpfOuCnpj, id);
 	}
 
 	@Override
@@ -127,8 +150,10 @@ public class Cliente {
 		if (getClass() != obj.getClass())
 			return false;
 		Cliente other = (Cliente) obj;
-		return Objects.equals(cpfOuCnpj, other.cpfOuCnpj);
+		return Objects.equals(cpfOuCnpj, other.cpfOuCnpj) && Objects.equals(id, other.id);
 	}
+
+	
 
 
 }

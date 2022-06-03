@@ -64,7 +64,7 @@ public class ClienteResource {
 
 	}
 
-	@PatchMapping(value = "/{id}")
+	@PutMapping(value = "status/{id}")
 	public ResponseEntity<Cliente> updateIsAtivo(@PathVariable Integer id) {
 		Cliente newObj = clienteService.updateIsAtivo(id);
 		return ResponseEntity.ok().body(newObj);

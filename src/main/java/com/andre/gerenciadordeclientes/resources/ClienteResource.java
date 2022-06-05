@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.andre.gerenciadordeclientes.domain.Cidade;
 import com.andre.gerenciadordeclientes.domain.Cliente;
 import com.andre.gerenciadordeclientes.service.ClienteService;
 
@@ -73,6 +74,18 @@ public class ClienteResource {
 		try {
 			List<Cliente> list = clienteService.findAllAtivo();
 			return ResponseEntity.ok().body(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+
+	}
+	
+	@GetMapping(value = "/desativados")
+	public ResponseEntity<List<Cliente>> findAll() {
+		try {
+			List<Cliente> listCidade = clienteService.findAllDasativado();
+			return ResponseEntity.ok().body(listCidade);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

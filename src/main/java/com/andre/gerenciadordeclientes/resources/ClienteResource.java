@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,52 +31,91 @@ public class ClienteResource {
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Cliente> findById(@PathVariable Integer id) {
-		Cliente obj = clienteService.findById(id);
-		return ResponseEntity.ok().body(obj);
+
+		try {
+			Cliente obj = clienteService.findById(id);
+			return ResponseEntity.ok().body(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+
 	}
-	
-	@GetMapping(value = "/finddoc/{cpfOuCnpj}")
+
+	@GetMapping(value = "/c/{cpfOuCnpj}")
 	public ResponseEntity<Cliente> findByCpfOuCnpj(@PathVariable String cpfOuCnpj) {
-		Cliente obj = clienteService.findByCpfOuCnpj(cpfOuCnpj);
-		return ResponseEntity.ok().body(obj);
+		try {
+			Cliente obj = clienteService.findByCpfOuCnpj(cpfOuCnpj);
+			return ResponseEntity.ok().body(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+
 	}
 
-	@GetMapping(value = "/findbycidade/{id}")
+	@GetMapping(value = "/cidades/{id}")
 	public ResponseEntity<List<Cliente>> findByCidade(@PathVariable Integer id) {
-		List<Cliente> list = clienteService.findByCidade(id);
-		return ResponseEntity.ok().body(list);
+
+		try {
+			List<Cliente> list = clienteService.findByCidade(id);
+			return ResponseEntity.ok().body(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 
 	}
-	
+
 	@GetMapping
 	public ResponseEntity<List<Cliente>> findAll(
 			@RequestParam(value = "cidade", defaultValue = "0") Integer cidade_id) {
-		List<Cliente> list = clienteService.findAll();
-		return ResponseEntity.ok().body(list);
+		try {
+			List<Cliente> list = clienteService.findAllAtivo();
+			return ResponseEntity.ok().body(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 
 	}
 
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Cliente> update(@PathVariable Integer id, @Valid @RequestBody Cliente obj) {
-		Cliente newObj = clienteService.update(id, obj);
-		return ResponseEntity.ok().body(newObj);
+		try {
+			Cliente newObj = clienteService.update(id, obj);
+			return ResponseEntity.ok().body(newObj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 
 	}
 
 	@PutMapping(value = "status/{id}")
 	public ResponseEntity<Cliente> updateIsAtivo(@PathVariable Integer id) {
-		Cliente newObj = clienteService.updateIsAtivo(id);
-		return ResponseEntity.ok().body(newObj);
+		try {
+			Cliente newObj = clienteService.updateIsAtivo(id);
+			return ResponseEntity.ok().body(newObj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 
 	}
 
 	@PostMapping
-	public ResponseEntity<Cliente> create(@RequestParam(value = "cidade", defaultValue = "0") Integer id_cat,
-			@Valid @RequestBody Cliente obj) {
-		Cliente newObj = clienteService.create(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/clientes/{id}")
-				.buildAndExpand(newObj.getId()).toUri();
-		return ResponseEntity.created(uri).build();
+	public ResponseEntity<Cliente> create(@Valid @RequestBody Cliente obj) {
+		try {
+			Cliente newObj = clienteService.create(obj);
+			URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/clientes/{id}")
+					.buildAndExpand(newObj.getId()).toUri();
+			return ResponseEntity.created(uri).build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+
 	}
 
 }

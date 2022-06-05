@@ -18,16 +18,6 @@ public class DBService {
 
 	public void instanciaBaseDeDados() {
 
-		Cidade cidade = new Cidade(null, "Assis", "SP");
-
-		Cliente cliente = new Cliente();
-		cliente.setAtivo(true);
-		cliente.setCpfOuCnpj("354.008.554-05");
-		cliente.setNome("Jose laurindo");
-		cliente.setCidade(cidade);
-
-		this.cidadeRepository.save(cidade);
-		this.clienteRepository.save(cliente);
 	}
 
 }

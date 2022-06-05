@@ -24,52 +24,109 @@ public class ClienteService {
 		return clienteOptional.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não enontrado!! ID: " + id + ", Tipo: " + Cliente.class.getName()));
 	}
-	
+
 	public Cliente findByCpfOuCnpj(String cpfOuCnpj) {
-		Optional<Cliente> clienteOptional = clienteRepository.findByCpfOuCnpj(cpfOuCnpj);
-		return clienteOptional.orElseThrow(() -> new ObjectNotFoundException(
-				"Objeto não enontrado!! cpfOuCnpj: " + cpfOuCnpj + ", Tipo: " + Cliente.class.getName()));
+		try {
+			Cliente cliente = clienteRepository.findByCpfOuCnpjAtivo(cpfOuCnpj);
+			return cliente;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
-	
+
 	public List<Cliente> findByCidade(Integer id_cidade) {
-		return clienteRepository.findAllByCidade(id_cidade);
+		try {
+			return clienteRepository.findAllByCidade(id_cidade);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+
+	}
+
+	public List<Cliente> findAllAtivo() {
+		try {
+			return clienteRepository.findAllAtivo();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	public List<Cliente> findAllDasativado() {
+		try {
+			return clienteRepository.findAllDesativado();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+
 	}
 
 	public List<Cliente> findAll() {
-		return clienteRepository.findAll();
+		try {
+			return clienteRepository.findAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+
 	}
 
-	public Cliente create(Cliente cliente) {
-		cliente.setId(null);
-		return clienteRepository.save(cliente);
+	public Cliente create(Cliente obj) {
+		try {
+			obj.setId(null);
+			obj.setAtivo(true);
+			return clienteRepository.save(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	public Cliente update(Integer id, Cliente cliente) {
-		Cliente clienteUpdate = clienteRepository.getById(id);
-		clienteUpdate.setNome(cliente.getNome());
-		clienteUpdate.setCpfOuCnpj(cliente.getCpfOuCnpj());
-		clienteUpdate.setAtivo(cliente.isAtivo());
-		clienteUpdate.setBairro(cliente.getBairro());
-		clienteUpdate.setEndereco(cliente.getEndereco());
-		clienteUpdate.setEmail(cliente.getEmail());
-		clienteUpdate.setNumero(cliente.getNumero());
-		clienteUpdate.setTelefone(cliente.getTelefone());
-		clienteUpdate.setCep(cliente.getCep());
+		try {
+			Cliente clienteUpdate = clienteRepository.getById(id);
+			clienteUpdate.setNome(cliente.getNome());
+			clienteUpdate.setCpfOuCnpj(cliente.getCpfOuCnpj());
+			clienteUpdate.setAtivo(cliente.isAtivo());
+			clienteUpdate.setBairro(cliente.getBairro());
+			clienteUpdate.setEndereco(cliente.getEndereco());
+			clienteUpdate.setEmail(cliente.getEmail());
+			clienteUpdate.setNumero(cliente.getNumero());
+			clienteUpdate.setTelefone(cliente.getTelefone());
+			clienteUpdate.setCep(cliente.getCep());
+			clienteUpdate.setCidade(cliente.getCidade());
 
-		return clienteRepository.save(clienteUpdate);
+			return clienteRepository.save(clienteUpdate);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+
 	}
 
 	public Cliente updateIsAtivo(Integer id) {
-		Cliente clienteUpdate = clienteRepository.getById(id);
-		if (clienteUpdate.isAtivo()) {
-			clienteUpdate.setAtivo(false);
+
+		try {
+			Cliente clienteUpdate = clienteRepository.getById(id);
+			if (clienteUpdate.isAtivo()) {
+				clienteUpdate.setAtivo(false);
+				return clienteRepository.save(clienteUpdate);
+			}
+			if (!clienteUpdate.isAtivo()) {
+				clienteUpdate.setAtivo(true);
+				return clienteRepository.save(clienteUpdate);
+			}
 			return clienteRepository.save(clienteUpdate);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
 		}
-		if (!clienteUpdate.isAtivo()) {
-			clienteUpdate.setAtivo(true);
-			return clienteRepository.save(clienteUpdate);
-		}
-		return clienteRepository.save(clienteUpdate);
+
 	}
 
 }

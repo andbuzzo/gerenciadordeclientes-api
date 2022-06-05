@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 public class Cidade implements Serializable {
@@ -16,7 +19,12 @@ public class Cidade implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@NotNull(message = "Campo nome é requerido!")
+	@Length(min = 3, max = 50, message = "Campo nome deve conter entre 3 e 50 caracteres!")
 	private String nome;
+	@NotNull(message = "Campo UF é requerido!")
+	@Length(min=2 , max = 2, message = "campo uf contém apenas 2 caracteres")
 	private String uf;
 
 	public Cidade() {

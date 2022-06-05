@@ -14,8 +14,17 @@ import com.andre.gerenciadordeclientes.domain.Cliente;
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 	
-	@Query("SELECT obj FROM Cliente obj WHERE obj.cidade.id = :cidade_id ORDER BY nome")
+	@Query("SELECT obj FROM Cliente obj WHERE obj.cidade.id = :cidade_id AND is_ativo = true ORDER BY nome")
 	List<Cliente> findAllByCidade(@Param(value = "cidade_id") Integer cidade_id);
+	
+	@Query("SELECT obj FROM Cliente obj WHERE is_ativo = true ORDER BY nome")
+	List<Cliente> findAllAtivo();
+	
+	@Query("SELECT obj FROM Cliente obj WHERE is_ativo = false ORDER BY nome")
+	List<Cliente> findAllDesativado();
+	
+	@Query("SELECT obj FROM Cliente obj WHERE is_ativo = true AND obj.cpfOuCnpj = :cpfOuCnpj")
+	Cliente findByCpfOuCnpjAtivo(@Param(value ="cpfOuCnpj") String cpfOuCnpj);
 	
 	Optional<Cliente> findByCpfOuCnpj(String cpfOuCnpj);
 

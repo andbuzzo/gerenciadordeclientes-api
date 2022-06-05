@@ -3,49 +3,68 @@ package com.andre.gerenciadordeclientes.domain;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Cliente implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
+	@NotEmpty(message = "Campo CPF/CNPJ é obrigatório!!!")
+	@NotNull(message = "Campo CPF/CNPJ é obrigatório!!!")
 	private String cpfOuCnpj;
+
+	@NotEmpty(message = "Campo Nome é obrigatório!!!")
+	@NotNull(message = "Campo Nome é obrigatório!!!")
 	private String nome;
+	
 	private String endereco;
 	private String numero;
 	private String bairro;
 	private String cep;
-	
-	@ManyToOne
-	@JoinColumn(name = "cidade_id")
-	private Cidade cidade;
+
+	@Column(name = "cidade_id")
+	private Integer cidade;
+
 	private String telefone;
+
+	@Email
 	private String email;
 	private boolean isAtivo;
-	
+
 	public Cliente() {
-		super();
-		// TODO Auto-generated constructor stub
+
 	}
 
-	public Cliente(Integer id, String cpfOuCnpj, String nome, boolean isAtivo) {
+	public Cliente(Integer id, String cpfOuCnpj, String nome, String endereco, String numero, String bairro, String cep,
+			Integer cidade, String telefone, @Email String email, boolean isAtivo) {
 		super();
 		this.id = id;
 		this.cpfOuCnpj = cpfOuCnpj;
 		this.nome = nome;
+		this.endereco = endereco;
+		this.numero = numero;
+		this.bairro = bairro;
+		this.cep = cep;
+		this.cidade = cidade;
+		this.telefone = telefone;
+		this.email = email;
 		this.isAtivo = isAtivo;
 	}
 
-	
 	public Integer getId() {
 		return id;
 	}
@@ -102,11 +121,11 @@ public class Cliente implements Serializable {
 		this.cep = cep;
 	}
 
-	public Cidade getCidade() {
+	public Integer getCidade() {
 		return cidade;
 	}
 
-	public void setCidade(Cidade cidade) {
+	public void setCidade(Integer cidade) {
 		this.cidade = cidade;
 	}
 
@@ -157,8 +176,5 @@ public class Cliente implements Serializable {
 		Cliente other = (Cliente) obj;
 		return Objects.equals(cpfOuCnpj, other.cpfOuCnpj) && Objects.equals(id, other.id);
 	}
-
-	
-
 
 }
